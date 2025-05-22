@@ -1,0 +1,58 @@
+[
+    {
+      "id": 1,
+      "title": "Spaghetti Carbonara",
+      "description": "A classic Italian pasta dish with eggs, cheese, pancetta, and pepper.",
+      "image": "/images/spaghetti-carbonara.jpg",
+      "ingredients": [
+        "200g spaghetti",
+        "100g pancetta",
+        "2 large eggs",
+        "50g grated Parmesan cheese",
+        "Freshly ground black pepper",
+        "Salt"
+      ],
+      "instructions": [
+        "Cook spaghetti in salted boiling water until al dente.",
+        "Fry pancetta in a pan until crispy.",
+        "Whisk eggs and Parmesan in a bowl.",
+        "Drain pasta and quickly mix with pancetta and egg mixture.",
+        "Season with black pepper and serve immediately."
+      ],
+      "prepTime": "10 mins",
+      "cookTime": "20 mins",
+      "servings": 2,
+      "tags": ["Italian", "Pasta", "Quick"]
+    },
+    {
+      "id": 2,
+      "title": "Chicken Tikka Masala",
+      "description": "Chunks of grilled chicken in a creamy spiced tomato sauce.",
+      "image": "/images/chicken-tikka-masala.jpg",
+      "ingredients": [
+        "500g chicken breast",
+        "1 cup yogurt",
+        "2 tsp garam masala",
+        "1 tsp turmeric",
+        "1 onion, chopped",
+        "2 garlic cloves",
+        "1 tbsp ginger, grated",
+        "400g canned tomatoes",
+        "1/2 cup cream",
+        "Salt and pepper"
+      ],
+      "instructions": [
+        "Marinate chicken in yogurt and spices for at least 2 hours.",
+        "Grill or pan-fry the chicken until cooked through.",
+        "In a pan, sauté onions, garlic, and ginger until soft.",
+        "Add tomatoes and cook for 10 minutes.",
+        "Stir in cream and grilled chicken, simmer for 10 more minutes.",
+        "Serve with rice or naan."
+      ],
+      "prepTime": "20 mins",
+      "cookTime": "30 mins",
+      "servings": 4,
+      "tags": ["Indian", "Spicy", "Dinner"]
+    }
+  ]
+  
