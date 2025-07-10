@@ -1,52 +1,83 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
+const navItems = [
+  { name: 'Browse Meals', href: '/' },
+  { name: 'Meal Planner', href: '/planner' },
+  { name: 'Highlight', href: '/highlight' },
+];
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
-    <nav className="bg-white shadow-md">
+    <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
           <div className="flex items-center">
-            <span className="text-xl font-bold text-pink-600">MyDashboard</span>
+            <span className="text-2xl font-extrabold text-pink-600">MealMate</span>
           </div>
-          <div className="hidden md:flex space-x-4 items-center">
-            <a href="#" className="text-gray-700 hover:text-pink-600">Home</a>
-            <a href="#" className="text-gray-700 hover:text-pink-600">About</a>
-            <a href="#" className="text-gray-700 hover:text-pink-600">Contact</a>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex space-x-6 items-center">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`text-sm font-medium ${
+                  pathname === item.href
+                    ? 'text-pink-600 underline underline-offset-4'
+                    : 'text-gray-700 hover:text-pink-600'
+                }`}
+              >
+                {item.name}
+              </Link>
+            ))}
           </div>
-          <div className="md:hidden flex items-center">
+
+          {/* Hamburger menu for mobile */}
+          <div className="md:hidden">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="text-gray-700 focus:outline-none"
+              aria-label="Toggle menu"
             >
               <svg
                 className="h-6 w-6"
                 fill="none"
                 stroke="currentColor"
+                strokeWidth={2}
                 viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Dropdown */}
       {menuOpen && (
-        <div className="md:hidden px-4 pb-4 space-y-2">
-          <a href="#" className="block text-gray-700 hover:text-pink-600">Home</a>
-          <a href="#" className="block text-gray-700 hover:text-pink-600">About</a>
-          <a href="#" className="block text-gray-700 hover:text-pink-600">Contact</a>
+        <div className="md:hidden px-4 pb-4 space-y-2 bg-white shadow-inner">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setMenuOpen(false)}
+              className={`block text-base font-medium ${
+                pathname === item.href
+                  ? 'text-pink-600 underline'
+                  : 'text-gray-700 hover:text-pink-600'
+              }`}
+            >
+              {item.name}
+            </Link>
+          ))}
         </div>
       )}
     </nav>

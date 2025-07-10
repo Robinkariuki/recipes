@@ -1,58 +1,245 @@
 [
-    {
-      "id": 1,
-      "title": "Spaghetti Carbonara",
-      "description": "A classic Italian pasta dish with eggs, cheese, pancetta, and pepper.",
-      "image": "/images/spaghetti-carbonara.jpg",
-      "ingredients": [
-        "200g spaghetti",
-        "100g pancetta",
-        "2 large eggs",
-        "50g grated Parmesan cheese",
-        "Freshly ground black pepper",
-        "Salt"
-      ],
-      "instructions": [
-        "Cook spaghetti in salted boiling water until al dente.",
-        "Fry pancetta in a pan until crispy.",
-        "Whisk eggs and Parmesan in a bowl.",
-        "Drain pasta and quickly mix with pancetta and egg mixture.",
-        "Season with black pepper and serve immediately."
-      ],
-      "prepTime": "10 mins",
-      "cookTime": "20 mins",
-      "servings": 2,
-      "tags": ["Italian", "Pasta", "Quick"]
-    },
-    {
-      "id": 2,
-      "title": "Chicken Tikka Masala",
-      "description": "Chunks of grilled chicken in a creamy spiced tomato sauce.",
-      "image": "/images/chicken-tikka-masala.jpg",
-      "ingredients": [
-        "500g chicken breast",
-        "1 cup yogurt",
-        "2 tsp garam masala",
-        "1 tsp turmeric",
-        "1 onion, chopped",
-        "2 garlic cloves",
-        "1 tbsp ginger, grated",
-        "400g canned tomatoes",
-        "1/2 cup cream",
-        "Salt and pepper"
-      ],
-      "instructions": [
-        "Marinate chicken in yogurt and spices for at least 2 hours.",
-        "Grill or pan-fry the chicken until cooked through.",
-        "In a pan, sauté onions, garlic, and ginger until soft.",
-        "Add tomatoes and cook for 10 minutes.",
-        "Stir in cream and grilled chicken, simmer for 10 more minutes.",
-        "Serve with rice or naan."
-      ],
-      "prepTime": "20 mins",
-      "cookTime": "30 mins",
-      "servings": 4,
-      "tags": ["Indian", "Spicy", "Dinner"]
-    }
-  ]
-  
+  {
+    "id": 1,
+    "title": "Spaghetti Carbonara",
+    "description": "A classic Italian pasta dish with eggs, cheese, pancetta, and pepper.",
+    "image": "/images/spaghetti-carbonara.jpg",
+    "ingredients": [
+      "200g spaghetti",
+      "100g pancetta",
+      "2 large eggs",
+      "50g grated Parmesan cheese",
+      "Freshly ground black pepper",
+      "Salt"
+    ],
+    "instructions": [
+      "Cook spaghetti in salted boiling water until al dente.",
+      "Fry pancetta in a pan until crispy.",
+      "Whisk eggs and Parmesan in a bowl.",
+      "Drain pasta and quickly mix with pancetta and egg mixture.",
+      "Season with black pepper and serve immediately."
+    ],
+    "prepTime": "10 mins",
+    "cookTime": "20 mins",
+    "servings": 2,
+    "tags": ["Italian", "Pasta", "Quick"]
+  },
+  {
+    "id": 2,
+    "title": "Chicken Tikka Masala",
+    "description": "Chunks of grilled chicken in a creamy spiced tomato sauce.",
+    "image": "/images/chicken-tikka-masala.jpg",
+    "ingredients": [
+      "500g chicken breast",
+      "1 cup yogurt",
+      "2 tsp garam masala",
+      "1 tsp turmeric",
+      "1 onion, chopped",
+      "2 garlic cloves",
+      "1 tbsp ginger, grated",
+      "400g canned tomatoes",
+      "1/2 cup cream",
+      "Salt and pepper"
+    ],
+    "instructions": [
+      "Marinate chicken in yogurt and spices for at least 2 hours.",
+      "Grill or pan-fry the chicken until cooked through.",
+      "In a pan, sauté onions, garlic, and ginger until soft.",
+      "Add tomatoes and cook for 10 minutes.",
+      "Stir in cream and grilled chicken, simmer for 10 more minutes.",
+      "Serve with rice or naan."
+    ],
+    "prepTime": "20 mins",
+    "cookTime": "30 mins",
+    "servings": 4,
+    "tags": ["Indian", "Spicy", "Dinner"]
+  },
+  {
+    "id": 3,
+    "title": "Vegetable Stir Fry",
+    "description": "A quick and healthy mix of vegetables sautéed in soy sauce and garlic.",
+    "image": "/images/vegetable-stir-fry.jpg",
+    "ingredients": [
+      "1 bell pepper",
+      "1 carrot",
+      "100g broccoli",
+      "2 tbsp soy sauce",
+      "1 garlic clove",
+      "1 tbsp sesame oil"
+    ],
+    "instructions": [
+      "Chop all vegetables.",
+      "Heat sesame oil in a wok.",
+      "Add garlic and sauté for 1 minute.",
+      "Add vegetables and stir-fry on high heat.",
+      "Add soy sauce and cook for 2 more minutes."
+    ],
+    "prepTime": "10 mins",
+    "cookTime": "10 mins",
+    "servings": 2,
+    "tags": ["Vegetarian", "Quick", "Healthy"]
+  },
+  {
+    "id": 4,
+    "title": "Beef Stroganoff",
+    "description": "Creamy beef and mushroom sauce served over noodles.",
+    "image": "/images/beef-stroganoff.jpg",
+    "ingredients": [
+      "300g beef strips",
+      "1 onion",
+      "200g mushrooms",
+      "1 cup sour cream",
+      "1 tbsp mustard",
+      "Pasta or noodles"
+    ],
+    "instructions": [
+      "Sauté onions and mushrooms.",
+      "Add beef and cook until browned.",
+      "Stir in mustard and sour cream.",
+      "Simmer for 5 minutes and serve over noodles."
+    ],
+    "prepTime": "15 mins",
+    "cookTime": "25 mins",
+    "servings": 3,
+    "tags": ["Russian", "Dinner", "Comfort Food"]
+  },
+  {
+    "id": 5,
+    "title": "Avocado Toast",
+    "description": "Simple and nutritious toast topped with mashed avocado and seasoning.",
+    "image": "/images/avocado-toast.jpg",
+    "ingredients": [
+      "2 slices of bread",
+      "1 ripe avocado",
+      "Lemon juice",
+      "Chili flakes",
+      "Salt and pepper"
+    ],
+    "instructions": [
+      "Toast the bread slices.",
+      "Mash avocado with lemon juice, salt, and pepper.",
+      "Spread avocado mixture on toast.",
+      "Sprinkle chili flakes and serve."
+    ],
+    "prepTime": "5 mins",
+    "cookTime": "5 mins",
+    "servings": 1,
+    "tags": ["Vegetarian", "Quick", "Breakfast"]
+  },
+  {
+    "id": 6,
+    "title": "Grilled Salmon",
+    "description": "Salmon fillet grilled to perfection with herbs and lemon.",
+    "image": "/images/grilled-salmon.jpg",
+    "ingredients": [
+      "2 salmon fillets",
+      "Lemon slices",
+      "Fresh dill",
+      "Salt and pepper",
+      "Olive oil"
+    ],
+    "instructions": [
+      "Preheat grill.",
+      "Season salmon with salt, pepper, and dill.",
+      "Grill for 5–6 minutes per side.",
+      "Serve with lemon slices."
+    ],
+    "prepTime": "10 mins",
+    "cookTime": "12 mins",
+    "servings": 2,
+    "tags": ["Seafood", "Healthy", "Dinner"]
+  },
+  {
+    "id": 7,
+    "title": "French Toast",
+    "description": "Golden brown bread soaked in egg and milk, topped with syrup.",
+    "image": "/images/french-toast.jpg",
+    "ingredients": [
+      "2 slices bread",
+      "1 egg",
+      "1/4 cup milk",
+      "Butter",
+      "Maple syrup"
+    ],
+    "instructions": [
+      "Whisk egg and milk in a bowl.",
+      "Dip bread slices and coat well.",
+      "Fry in butter until golden brown.",
+      "Top with syrup and serve."
+    ],
+    "prepTime": "5 mins",
+    "cookTime": "10 mins",
+    "servings": 1,
+    "tags": ["Breakfast", "Quick", "Sweet"]
+  },
+  {
+    "id": 8,
+    "title": "Chickpea Curry",
+    "description": "Hearty vegetarian curry made with chickpeas and spices.",
+    "image": "/images/chickpea-curry.jpg",
+    "ingredients": [
+      "1 can chickpeas",
+      "1 onion",
+      "2 garlic cloves",
+      "1 tsp cumin",
+      "1 tsp turmeric",
+      "400g canned tomatoes"
+    ],
+    "instructions": [
+      "Sauté onion and garlic.",
+      "Add spices and stir for 1 min.",
+      "Add tomatoes and chickpeas.",
+      "Simmer for 15 minutes."
+    ],
+    "prepTime": "10 mins",
+    "cookTime": "20 mins",
+    "servings": 3,
+    "tags": ["Vegetarian", "Indian", "Dinner"]
+  },
+  {
+    "id": 9,
+    "title": "Caprese Salad",
+    "description": "Fresh mozzarella, tomatoes, and basil drizzled with olive oil.",
+    "image": "/images/caprese-salad.jpg",
+    "ingredients": [
+      "Fresh mozzarella",
+      "Tomatoes",
+      "Fresh basil",
+      "Olive oil",
+      "Salt and pepper"
+    ],
+    "instructions": [
+      "Slice mozzarella and tomatoes.",
+      "Layer with basil leaves.",
+      "Drizzle olive oil and season."
+    ],
+    "prepTime": "5 mins",
+    "cookTime": "0 mins",
+    "servings": 2,
+    "tags": ["Italian", "Vegetarian", "Healthy"]
+  },
+  {
+    "id": 10,
+    "title": "Shrimp Fried Rice",
+    "description": "Fried rice with shrimp, vegetables, and soy sauce.",
+    "image": "/images/shrimp-fried-rice.jpg",
+    "ingredients": [
+      "200g cooked rice",
+      "100g shrimp",
+      "1 egg",
+      "Peas and carrots",
+      "2 tbsp soy sauce",
+      "1 green onion"
+    ],
+    "instructions": [
+      "Scramble egg in a pan and set aside.",
+      "Sauté shrimp, then add vegetables.",
+      "Add rice and soy sauce, mix well.",
+      "Stir in egg and top with green onion."
+    ],
+    "prepTime": "10 mins",
+    "cookTime": "15 mins",
+    "servings": 2,
+    "tags": ["Asian", "Quick", "Seafood"]
+  }
+]
