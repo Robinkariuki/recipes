@@ -1,44 +1,44 @@
 'use client';
 
 import Image from "next/image";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Recipe } from "./Recipes";
 import * as Dialog from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
+import { useMealPlanner } from "@/contexts/MealPlannerContext";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function RecipeCard({ recipe }: { recipe: Recipe }) {
-  const fallbackImg = "https://placehold.co/300x200?text=No+Image";
+  const { addMeal } = useMealPlanner();
 
- const [imgSrc, setImgSrc] = useState(fallbackImg);
+  const fallbackImg = "https://placehold.co/300x200?text=No+Image";
+  const [imgSrc, setImgSrc] = useState(fallbackImg);
 
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-  setImgSrc(recipe.image || fallbackImg);
-}, [recipe.image]);
+    setImgSrc(recipe.image || fallbackImg);
+  }, [recipe.image]);
 
   const handleAddToPlanner = () => {
     if (!date || !time) {
-      alert("Please select both date and time.");
+      toast.warn("Please select both date and time.");
       return;
     }
 
-    const newEntry = {
+    addMeal({
       mealId: recipe.id,
       date,
       time
-    };
+    });
 
-   if (typeof window !== 'undefined') {
-    const existing = JSON.parse(localStorage.getItem("plannedMeals") || "[]");
-    existing.push(newEntry);
-    localStorage.setItem("plannedMeals", JSON.stringify(existing));
-
-    alert(`✅ "${recipe.title}" added to Meal Planner!`);
+    toast.success(`"${recipe.title}" added to Meal Planner!`);
     setDate('');
     setTime('');
-  }
+    setOpen(false); // Close modal
   };
 
   return (
@@ -51,7 +51,7 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
           layout="fill"
           objectFit="cover"
           className="rounded-t-2xl"
-          onError={() => setImgSrc("https://placehold.co/300x200?text=No+Image")}
+          onError={() => setImgSrc(fallbackImg)}
           unoptimized
         />
       </div>
@@ -63,10 +63,7 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
 
         <div className="flex flex-wrap gap-1 text-xs">
           {recipe.tags.map((tag, index) => (
-            <span
-              key={index}
-              className="bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full"
-            >
+            <span key={index} className="bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full">
               {tag}
             </span>
           ))}
@@ -96,9 +93,9 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
           </ol>
         </div>
 
-        {/* ➕ Add to Planner Button at Bottom */}
+        {/* ➕ Add to Planner Button */}
         <div className="pt-4 flex justify-center">
-          <Dialog.Root>
+          <Dialog.Root open={open} onOpenChange={setOpen}>
             <Dialog.Trigger asChild>
               <button className="bg-pink-600 text-white w-40 py-1.5 rounded text-sm hover:bg-pink-700 transition">
                 + Add to Planner
