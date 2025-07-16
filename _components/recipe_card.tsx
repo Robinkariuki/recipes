@@ -9,7 +9,15 @@ import { useMealPlanner } from "@/contexts/MealPlannerContext";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function RecipeCard({ recipe }: { recipe: Recipe }) {
+export default function RecipeCard({
+  recipe,
+  showAddToPlanner = true,
+  onRemove,
+}: {
+  recipe: Recipe;
+  showAddToPlanner?: boolean;
+  onRemove?: () => void;
+}) {
   const { addMeal } = useMealPlanner();
 
   const fallbackImg = "https://placehold.co/300x200?text=No+Image";
@@ -32,7 +40,8 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
     addMeal({
       mealId: recipe.id,
       date,
-      time
+      time,
+      recipe,
     });
 
     toast.success(`"${recipe.title}" added to Meal Planner!`);
@@ -92,54 +101,73 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
             ))}
           </ol>
         </div>
+{/* ➕ Add to Planner & 🗑️ Remove from Planner Buttons */}
+{(showAddToPlanner || onRemove) && (
+  <div className="pt-4">
+    <div className="flex justify-center gap-4 flex-wrap">
+      {/* Add to Planner Button */}
+      {showAddToPlanner && (
+        <Dialog.Root open={open} onOpenChange={setOpen}>
+          <Dialog.Trigger asChild>
+            <button className="bg-pink-600 text-white w-40 py-1.5 rounded text-sm hover:bg-pink-700 transition">
+              + Add to Planner
+            </button>
+          </Dialog.Trigger>
 
-        {/* ➕ Add to Planner Button */}
-        <div className="pt-4 flex justify-center">
-          <Dialog.Root open={open} onOpenChange={setOpen}>
-            <Dialog.Trigger asChild>
-              <button className="bg-pink-600 text-white w-40 py-1.5 rounded text-sm hover:bg-pink-700 transition">
-                + Add to Planner
-              </button>
-            </Dialog.Trigger>
-
-            <Dialog.Portal>
-              <Dialog.Overlay className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50" />
-              <Dialog.Content className="fixed z-50 top-1/2 left-1/2 w-[90vw] max-w-sm -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl p-6 shadow-xl space-y-4">
-                <div className="flex justify-between items-center">
-                  <Dialog.Title className="text-lg font-semibold text-gray-800">
-                    📅 Schedule this Meal
-                  </Dialog.Title>
-                  <Dialog.Close asChild>
-                    <button className="text-gray-500 hover:text-gray-800">
-                      <X className="w-5 h-5" />
-                    </button>
-                  </Dialog.Close>
-                </div>
-
-                <div className="space-y-2">
-                  <input
-                    type="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    className="w-full border rounded px-3 py-2 text-sm"
-                  />
-                  <input
-                    type="time"
-                    value={time}
-                    onChange={(e) => setTime(e.target.value)}
-                    className="w-full border rounded px-3 py-2 text-sm"
-                  />
-                  <button
-                    onClick={handleAddToPlanner}
-                    className="w-full bg-pink-600 text-white py-2 rounded text-sm hover:bg-pink-700"
-                  >
-                    Add to Meal Planner
+          <Dialog.Portal>
+            <Dialog.Overlay className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50" />
+            <Dialog.Content className="fixed z-50 top-1/2 left-1/2 w-[90vw] max-w-sm -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl p-6 shadow-xl space-y-4">
+              <div className="flex justify-between items-center">
+                <Dialog.Title className="text-lg font-semibold text-gray-800">
+                  📅 Schedule this Meal
+                </Dialog.Title>
+                <Dialog.Close asChild>
+                  <button className="text-gray-500 hover:text-gray-800">
+                    <X className="w-5 h-5" />
                   </button>
-                </div>
-              </Dialog.Content>
-            </Dialog.Portal>
-          </Dialog.Root>
-        </div>
+                </Dialog.Close>
+              </div>
+
+              <div className="space-y-2">
+                <input
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  className="w-full border rounded px-3 py-2 text-sm"
+                />
+                <input
+                  type="time"
+                  value={time}
+                  onChange={(e) => setTime(e.target.value)}
+                  className="w-full border rounded px-3 py-2 text-sm"
+                />
+                <button
+                  onClick={handleAddToPlanner}
+                  className="w-full bg-pink-600 text-white py-2 rounded text-sm hover:bg-pink-700"
+                >
+                  Add to Meal Planner
+                </button>
+              </div>
+            </Dialog.Content>
+          </Dialog.Portal>
+        </Dialog.Root>
+      )}
+
+      {/* Remove Meal Button */}
+      {onRemove && (
+        <button
+          onClick={onRemove}
+          className="bg-red-500 text-white w-40 py-1.5 rounded text-sm hover:bg-red-600 transition"
+        >
+          Remove Meal
+        </button>
+      )}
+    </div>
+  </div>
+)}
+
+
+
       </div>
     </div>
   );

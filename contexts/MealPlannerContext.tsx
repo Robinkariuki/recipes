@@ -1,11 +1,15 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { Recipe } from '@/_components/Recipes';
+
 
 export interface PlannedMeal {
   mealId: number;
   date: string;
   time: string;
+  recipe: Recipe;
+  
 }
 
 interface MealPlannerContextType {
