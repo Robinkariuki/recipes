@@ -3,13 +3,11 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { Recipe } from '@/_components/Recipes';
 
-
 export interface PlannedMeal {
   mealId: number;
   date: string;
   time: string;
   recipe: Recipe;
-  
 }
 
 interface MealPlannerContextType {
@@ -22,20 +20,36 @@ const MealPlannerContext = createContext<MealPlannerContextType | undefined>(und
 
 export const MealPlannerProvider = ({ children }: { children: ReactNode }) => {
   const [plannedMeals, setPlannedMeals] = useState<PlannedMeal[]>([]);
+  const [hydrated, setHydrated] = useState(false);
 
   // Load from localStorage on mount
   useEffect(() => {
     const stored = localStorage.getItem('plannedMeals');
-    if (stored) setPlannedMeals(JSON.parse(stored));
+    if (stored) {
+      try {
+        setPlannedMeals(JSON.parse(stored));
+      } catch (error) {
+        console.error('Error parsing planned meals from localStorage:', error);
+      }
+    }
+    setHydrated(true);
   }, []);
 
   // Save to localStorage when changed
   useEffect(() => {
-    localStorage.setItem('plannedMeals', JSON.stringify(plannedMeals));
-  }, [plannedMeals]);
+    if (hydrated) {
+      localStorage.setItem('plannedMeals', JSON.stringify(plannedMeals));
+    }
+  }, [plannedMeals, hydrated]);
 
   const addMeal = (meal: PlannedMeal) => {
-    setPlannedMeals((prev) => [...prev, meal]);
+    setPlannedMeals((prev) => {
+      const exists = prev.some(
+        (m) => m.mealId === meal.mealId && m.date === meal.date && m.time === meal.time
+      );
+      if (exists) return prev;
+      return [...prev, meal];
+    });
   };
 
   const removeMeal = (mealId: number, date: string, time: string) => {
@@ -43,6 +57,8 @@ export const MealPlannerProvider = ({ children }: { children: ReactNode }) => {
       prev.filter((m) => !(m.mealId === mealId && m.date === date && m.time === time))
     );
   };
+
+  if (!hydrated) return null;
 
   return (
     <MealPlannerContext.Provider value={{ plannedMeals, addMeal, removeMeal }}>

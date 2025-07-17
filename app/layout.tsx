@@ -4,8 +4,6 @@ import "./globals.css";
 import ClientLayout from "./ClientLayout";
 import { MealPlannerProvider } from "@/contexts/MealPlannerContext";
 
-
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -29,11 +27,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100`}>
-      <ClientLayout>
+        {/* ✅ Wrap the entire layout with MealPlannerProvider */}
         <MealPlannerProvider>
-    {children}
-    </MealPlannerProvider>
-  </ClientLayout>
+          <ClientLayout>
+            {children}
+          </ClientLayout>
+        </MealPlannerProvider>
       </body>
     </html>
   );
