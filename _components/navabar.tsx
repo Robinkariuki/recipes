@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 const navItems = [
   { name: 'Browse Meals', href: '/' },
   { name: 'Meal Planner', href: '/meal-planner' },
-  { name: 'Highlight', href: '/highlight' },
+  // { name: 'Highlight', href: '/highlight' },
 ];
 
 export default function Navbar() {
