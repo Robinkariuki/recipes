@@ -15,12 +15,14 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <nav className="bg-white dark:bg-gray-900 shadow-md dark:shadow-lg sticky top-0 z-50 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <span className="text-2xl font-extrabold text-pink-600">MealMate</span>
+            <span className="text-2xl font-extrabold text-pink-600 dark:text-pink-400">
+              MealMate
+            </span>
           </div>
 
           {/* Desktop Nav */}
@@ -29,10 +31,10 @@ export default function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm font-medium ${
+                className={`text-sm font-medium transition-colors ${
                   pathname === item.href
-                    ? 'text-pink-600 underline underline-offset-4'
-                    : 'text-gray-700 hover:text-pink-600'
+                    ? 'text-pink-600 dark:text-pink-400 underline underline-offset-4'
+                    : 'text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400'
                 }`}
               >
                 {item.name}
@@ -44,7 +46,7 @@ export default function Navbar() {
           <div className="md:hidden">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="text-gray-700 focus:outline-none"
+              className="text-gray-700 dark:text-gray-300 focus:outline-none"
               aria-label="Toggle menu"
             >
               <svg
@@ -63,16 +65,16 @@ export default function Navbar() {
 
       {/* Mobile Dropdown */}
       {menuOpen && (
-        <div className="md:hidden px-4 pb-4 space-y-2 bg-white shadow-inner">
+        <div className="md:hidden px-4 pb-4 space-y-2 bg-white dark:bg-gray-900 shadow-inner dark:shadow-none transition-colors">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               onClick={() => setMenuOpen(false)}
-              className={`block text-base font-medium ${
+              className={`block text-base font-medium transition-colors ${
                 pathname === item.href
-                  ? 'text-pink-600 underline'
-                  : 'text-gray-700 hover:text-pink-600'
+                  ? 'text-pink-600 dark:text-pink-400 underline'
+                  : 'text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400'
               }`}
             >
               {item.name}
