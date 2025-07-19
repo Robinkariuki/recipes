@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { Recipe } from "./Recipes";
+import { Recipe } from "@/_utils/types/types";
 import * as Dialog from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import { useMealPlanner } from "@/contexts/MealPlannerContext";
@@ -19,13 +19,13 @@ export default function RecipeCard({
   onRemove?: () => void;
 }) {
   const { addMeal } = useMealPlanner();
-
   const fallbackImg = "https://placehold.co/300x200?text=No+Image";
-  const [imgSrc, setImgSrc] = useState(fallbackImg);
 
+  const [imgSrc, setImgSrc] = useState(fallbackImg);
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
-  const [open, setOpen] = useState(false);
+  const [openPlanner, setOpenPlanner] = useState(false);
+  const [openSummary, setOpenSummary] = useState(false);
 
   useEffect(() => {
     setImgSrc(recipe.image || fallbackImg);
@@ -47,7 +47,7 @@ export default function RecipeCard({
     toast.success(`"${recipe.title}" added to Meal Planner!`);
     setDate('');
     setTime('');
-    setOpen(false);
+    setOpenPlanner(false);
   };
 
   return (
@@ -66,59 +66,76 @@ export default function RecipeCard({
       </div>
 
       {/* Content */}
-      <div className="p-4 flex flex-col flex-grow">
-        <div className="space-y-3">
-          <h2 className="text-xl font-bold text-gray-800 dark:text-white">{recipe.title}</h2>
-          <p className="text-gray-600 dark:text-gray-300 text-sm">{recipe.description}</p>
+      <div className="p-4 flex flex-col flex-grow space-y-3">
+        <h2 className="text-xl font-bold text-gray-800 dark:text-white">{recipe.title}</h2>
 
-          <div className="flex flex-wrap gap-1 text-xs">
-            {recipe.tags.map((tag, index) => (
-              <span key={index} className="bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300 px-2 py-0.5 rounded-full">
-                {tag}
-              </span>
-            ))}
-          </div>
-
-          <div className="flex flex-wrap gap-3 text-xs text-gray-500 dark:text-gray-400">
-            <p><strong>Prep:</strong> {recipe.prepTime}</p>
-            <p><strong>Cook:</strong> {recipe.cookTime}</p>
-            <p><strong>Servings:</strong> {recipe.servings}</p>
-          </div>
-
-          <div>
-            <h3 className="font-semibold text-sm text-gray-800 dark:text-white">Ingredients:</h3>
-            <ul className="list-disc pl-4 text-xs text-gray-700 dark:text-gray-300">
-              {recipe.ingredients.map((ingredient, idx) => (
-                <li key={idx}>{ingredient}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-semibold text-sm text-gray-800 dark:text-white">Instructions:</h3>
-            <ol className="list-decimal pl-4 text-xs text-gray-700 dark:text-gray-300 space-y-1">
-              {recipe.instructions.map((step, idx) => (
-                <li key={idx}>{step}</li>
-              ))}
-            </ol>
-          </div>
+        {/* Instructions now inline */}
+        <div>
+          <h3 className="font-semibold text-sm text-gray-800 dark:text-white">Instructions:</h3>
+          <div
+            className="text-xs text-gray-700 dark:text-gray-300 whitespace-pre-line prose dark:prose-invert max-h-40 overflow-y-auto"
+            dangerouslySetInnerHTML={{
+              __html: recipe.instructions || 'No instructions available.',
+            }}
+          />
         </div>
 
-        {/* Buttons stick to bottom */}
+        {/* View Summary Button */}
+        <Dialog.Root open={openSummary} onOpenChange={setOpenSummary}>
+          <Dialog.Trigger asChild>
+            <button className="text-sm text-blue-600 hover:underline mt-1">ℹ️ View Summary</button>
+          </Dialog.Trigger>
+          <Dialog.Portal>
+            <Dialog.Overlay className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50" />
+            <Dialog.Content className="fixed z-50 top-1/2 left-1/2 w-[90vw] max-w-md -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-gray-900 rounded-xl p-6 shadow-xl space-y-4">
+              <div className="flex justify-between items-center">
+                <Dialog.Title className="text-lg font-semibold text-gray-800 dark:text-white">
+                  ℹ️ Recipe Summary
+                </Dialog.Title>
+                <Dialog.Close asChild>
+                  <button className="text-gray-500 hover:text-gray-800 dark:hover:text-white">
+                    <X className="w-5 h-5" />
+                  </button>
+                </Dialog.Close>
+              </div>
+              <div
+                className="prose dark:prose-invert text-sm max-h-[60vh] overflow-y-auto"
+                dangerouslySetInnerHTML={{ __html: recipe.summary || 'No summary available.' }}
+              />
+            </Dialog.Content>
+          </Dialog.Portal>
+        </Dialog.Root>
+
+        {/* Info */}
+        <div className="flex flex-wrap gap-3 text-xs text-gray-500 dark:text-gray-400">
+          <p><strong>Ready in:</strong> {recipe.readyInMinutes} min</p>
+          <p><strong>Servings:</strong> {recipe.servings}</p>
+        </div>
+
+        {/* Ingredients */}
+        <div>
+          <h3 className="font-semibold text-sm text-gray-800 dark:text-white">Ingredients:</h3>
+          <ul className="list-disc pl-4 text-xs text-gray-700 dark:text-gray-300">
+            {recipe.extendedIngredients.map((ing, idx) => (
+              <li key={idx}>{ing.original}</li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Buttons */}
         {(showAddToPlanner || onRemove) && (
           <div className="mt-auto pt-4">
             <div className="flex justify-center gap-4 flex-wrap">
               {showAddToPlanner && (
-                <Dialog.Root open={open} onOpenChange={setOpen}>
+                <Dialog.Root open={openPlanner} onOpenChange={setOpenPlanner}>
                   <Dialog.Trigger asChild>
                     <button className="bg-pink-600 text-white w-40 py-1.5 rounded text-sm hover:bg-pink-700 transition">
                       + Add to Planner
                     </button>
                   </Dialog.Trigger>
-
                   <Dialog.Portal>
                     <Dialog.Overlay className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50" />
-                    <Dialog.Content className="fixed z-50 top-1/2 left-1/2 w-[90vw] max-w-sm -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-gray-900 rounded-xl p-6 shadow-xl space-y-4 transition-colors">
+                    <Dialog.Content className="fixed z-50 top-1/2 left-1/2 w-[90vw] max-w-sm -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-gray-900 rounded-xl p-6 shadow-xl space-y-4">
                       <div className="flex justify-between items-center">
                         <Dialog.Title className="text-lg font-semibold text-gray-800 dark:text-white">
                           📅 Schedule this Meal
@@ -129,7 +146,6 @@ export default function RecipeCard({
                           </button>
                         </Dialog.Close>
                       </div>
-
                       <div className="space-y-2">
                         <input
                           type="date"

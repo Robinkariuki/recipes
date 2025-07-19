@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useMealPlanner } from "@/contexts/MealPlannerContext";
-import { Recipe } from "@/_components/Recipes";
+import { Recipe } from "@/_utils/types/types"; // Adjust the import path as necessary
 import RecipeCard from "@/_components/recipe_card";
 import { PlannedMeal } from "@/contexts/MealPlannerContext";
 import { toast } from "react-toastify";

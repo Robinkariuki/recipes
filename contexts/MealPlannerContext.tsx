@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { Recipe } from '@/_components/Recipes';
+import { Recipe } from '@/_utils/types/types'; // Adjust the import path as necessary
 
 export interface PlannedMeal {
   mealId: number;
