@@ -1,7 +1,7 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { Recipe } from '@/_utils/types/types'; // Adjust the import path as necessary
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { Recipe } from '@/_utils/types/types';
 
 export interface PlannedMeal {
   mealId: number;
@@ -16,39 +16,32 @@ interface MealPlannerContextType {
   removeMeal: (mealId: number, date: string, time: string) => void;
 }
 
-const MealPlannerContext = createContext<MealPlannerContextType | undefined>(undefined);
+const MealPlannerContext = createContext<MealPlannerContextType | null>(null);
 
 export const MealPlannerProvider = ({ children }: { children: ReactNode }) => {
-  const [plannedMeals, setPlannedMeals] = useState<PlannedMeal[]>([]);
-  const [hydrated, setHydrated] = useState(false);
-
-  // Load from localStorage on mount
-  useEffect(() => {
-    const stored = localStorage.getItem('plannedMeals');
-    if (stored) {
-      try {
-        setPlannedMeals(JSON.parse(stored));
-      } catch (error) {
-        console.error('Error parsing planned meals from localStorage:', error);
-      }
+  const [plannedMeals, setPlannedMeals] = useState<PlannedMeal[]>(() => {
+    // Use lazy initializer to avoid useEffect for initial load
+    if (typeof window === 'undefined') return [];
+    try {
+      const stored = localStorage.getItem('plannedMeals');
+      return stored ? JSON.parse(stored) : [];
+    } catch (error) {
+      console.error('Failed to parse planned meals:', error);
+      return [];
     }
-    setHydrated(true);
-  }, []);
+  });
 
-  // Save to localStorage when changed
+  // Persist to localStorage only when meals change
   useEffect(() => {
-    if (hydrated) {
-      localStorage.setItem('plannedMeals', JSON.stringify(plannedMeals));
-    }
-  }, [plannedMeals, hydrated]);
+    localStorage.setItem('plannedMeals', JSON.stringify(plannedMeals));
+  }, [plannedMeals]);
 
   const addMeal = (meal: PlannedMeal) => {
     setPlannedMeals((prev) => {
       const exists = prev.some(
         (m) => m.mealId === meal.mealId && m.date === meal.date && m.time === meal.time
       );
-      if (exists) return prev;
-      return [...prev, meal];
+      return exists ? prev : [...prev, meal];
     });
   };
 
@@ -57,8 +50,6 @@ export const MealPlannerProvider = ({ children }: { children: ReactNode }) => {
       prev.filter((m) => !(m.mealId === mealId && m.date === date && m.time === time))
     );
   };
-
-  if (!hydrated) return null;
 
   return (
     <MealPlannerContext.Provider value={{ plannedMeals, addMeal, removeMeal }}>

@@ -6,7 +6,7 @@ interface FetchParams {
   tags?: string;
   exclude?: string;
   includeNutrition?: boolean;
-  number?: number;
+  number?: number; 
 }
 
 export const fetchRandomRecipes = async ({

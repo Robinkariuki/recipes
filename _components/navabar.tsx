@@ -7,15 +7,15 @@ import { usePathname } from 'next/navigation';
 const navItems = [
   { name: 'Browse Meals', href: '/' },
   { name: 'Meal Planner', href: '/meal-planner' },
-  // { name: 'Highlight', href: '/highlight' },
 ];
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [search, setSearch] = useState('');
   const pathname = usePathname();
 
   return (
-    <nav className="bg-white dark:bg-gray-900 shadow-md dark:shadow-lg sticky top-0 z-50 transition-colors">
+    <nav className="bg-white dark:bg-gray-900 shadow-md sticky top-0 z-50 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -25,8 +25,8 @@ export default function Navbar() {
             </span>
           </div>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex space-x-6 items-center">
+          {/* Desktop Nav & Search */}
+          <div className="hidden md:flex items-center space-x-6">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -40,6 +40,15 @@ export default function Navbar() {
                 {item.name}
               </Link>
             ))}
+
+            {/* Search input */}
+            <input
+              type="text"
+              placeholder="Search meals..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="ml-4 px-3 py-1.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-sm text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-pink-500"
+            />
           </div>
 
           {/* Hamburger menu for mobile */}
@@ -65,7 +74,16 @@ export default function Navbar() {
 
       {/* Mobile Dropdown */}
       {menuOpen && (
-        <div className="md:hidden px-4 pb-4 space-y-2 bg-white dark:bg-gray-900 shadow-inner dark:shadow-none transition-colors">
+        <div className="md:hidden px-4 pb-4 space-y-2 bg-white dark:bg-gray-900 shadow-inner transition-colors">
+          {/* Mobile Search Input */}
+          <input
+            type="text"
+            placeholder="Search meals..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-sm text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-pink-500"
+          />
+
           {navItems.map((item) => (
             <Link
               key={item.href}

@@ -2,7 +2,6 @@
 
 import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
-import NextNProgress from 'nextjs-progressbar';
 import Navbar from '../_components/navabar';
 import { ToastContainer } from 'react-toastify';
 
@@ -15,14 +14,6 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     <>
       <Navbar />
 
-      {/* Progress bar configured */}
-      <NextNProgress
-        color="#EB1260"     // your preferred color
-        startPosition={0.3}
-        stopDelayMs={200}
-        height={3}
-        showOnShallow={true}
-      />
 
       <AnimatePresence mode="wait">
         <motion.main
