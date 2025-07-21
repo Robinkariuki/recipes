@@ -14,13 +14,14 @@ interface MealPlannerContextType {
   plannedMeals: PlannedMeal[];
   addMeal: (meal: PlannedMeal) => void;
   removeMeal: (mealId: number, date: string, time: string) => void;
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
 }
 
 const MealPlannerContext = createContext<MealPlannerContextType | null>(null);
 
 export const MealPlannerProvider = ({ children }: { children: ReactNode }) => {
   const [plannedMeals, setPlannedMeals] = useState<PlannedMeal[]>(() => {
-    // Use lazy initializer to avoid useEffect for initial load
     if (typeof window === 'undefined') return [];
     try {
       const stored = localStorage.getItem('plannedMeals');
@@ -31,7 +32,10 @@ export const MealPlannerProvider = ({ children }: { children: ReactNode }) => {
     }
   });
 
-  // Persist to localStorage only when meals change
+  // ✅ Add searchTerm state
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Persist meals to localStorage
   useEffect(() => {
     localStorage.setItem('plannedMeals', JSON.stringify(plannedMeals));
   }, [plannedMeals]);
@@ -52,7 +56,7 @@ export const MealPlannerProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <MealPlannerContext.Provider value={{ plannedMeals, addMeal, removeMeal }}>
+    <MealPlannerContext.Provider value={{ plannedMeals, addMeal, removeMeal, searchTerm, setSearchTerm }}>
       {children}
     </MealPlannerContext.Provider>
   );

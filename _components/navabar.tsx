@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-
+import { useMealPlanner } from '@/contexts/MealPlannerContext';
 const navItems = [
   { name: 'Browse Meals', href: '/' },
   { name: 'Meal Planner', href: '/meal-planner' },
@@ -11,7 +11,7 @@ const navItems = [
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [search, setSearch] = useState('');
+const { searchTerm, setSearchTerm } = useMealPlanner();
   const pathname = usePathname();
 
   return (
@@ -45,8 +45,8 @@ export default function Navbar() {
             <input
               type="text"
               placeholder="Search meals..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               className="ml-4 px-3 py-1.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-sm text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-pink-500"
             />
           </div>
@@ -79,8 +79,8 @@ export default function Navbar() {
           <input
             type="text"
             placeholder="Search meals..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-sm text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-pink-500"
           />
 
