@@ -6,7 +6,7 @@ const spoonacular = axios.create({
     "Content-Type": "application/json",
   },
   params: {
-    apiKey: process.env.NEXT_PUBLIC_SPOONACULAR_API_KEY,
+    apiKey: process.env.SPOONACULAR_API_KEY,
   },
 });
 

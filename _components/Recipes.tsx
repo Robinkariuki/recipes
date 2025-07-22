@@ -1,99 +1,65 @@
 'use client';
 
-import { useEffect, useRef, useState, useMemo } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import RecipeCard from './recipe_card';
 import { Recipe } from '@/_utils/types/types';
 import { useRandomRecipes } from '@/hooks/useRandomRecipes';
 import { useMealPlanner } from '@/contexts/MealPlannerContext';
-import { useDebounce } from "@/hooks/useDebounce";
+import { useDebounce } from '@/hooks/useDebounce';
 import { useSearchRecipes } from '@/hooks/useSearchRecipes';
 
 export default function RecipesPage() {
-  const [allRecipes, setAllRecipes] = useState<Recipe[]>([]);
-  const [highlight, setHighlight] = useState<Recipe | null>(null);
   const [page, setPage] = useState(1);
+  const [accumulatedRecipes, setAccumulatedRecipes] = useState<Recipe[]>([]);
   const { searchTerm } = useMealPlanner();
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const loaderRef = useRef<HTMLDivElement | null>(null);
-  const observerRef = useRef<IntersectionObserver | null>(null);
-
+  // Search API
   const {
     data: searchResults = [],
     isLoading: isSearchLoading,
     error: searchError,
   } = useSearchRecipes(debouncedSearchTerm);
 
+  // Random recipes (paginated via `page`)
   const {
-    data: randomRecipes = [],
+    data: newRandomRecipes = [],
     isLoading: isRandomLoading,
     error: randomError,
-  } = useRandomRecipes({ number: 8 }, !searchTerm); // enabled only when not searching
+  } = useRandomRecipes({ number: 8, page }, !searchTerm);
 
-  // Reset when exiting search
-  useEffect(() => {
-    if (!searchTerm) {
-      setAllRecipes([]);
-      setHighlight(null);
-      setPage(1);
-    }
-  }, [searchTerm]);
+  // Accumulate random recipes on page change
+useEffect(() => {
+  if (searchTerm || !newRandomRecipes.length) return;
 
-  // Set highlight and recipe list from random API results
-  useEffect(() => {
-    if (searchTerm || !randomRecipes.length) return;
+  setAccumulatedRecipes((prev) => {
+    const existingIds = new Set(prev.map((r) => r.id));
+    const filteredNew = newRandomRecipes.filter((r) => !existingIds.has(r.id));
+    return [...prev, ...filteredNew];
+  });
+}, [newRandomRecipes, searchTerm]);
 
-    const date = new Date().toISOString().split("T")[0];
-    const hash = Array.from(date).reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    const index = hash % randomRecipes.length;
-    const picked = randomRecipes[index];
 
-    setHighlight(picked);
-    setAllRecipes(randomRecipes.filter((_, i) => i !== index));
-  }, [randomRecipes, searchTerm]);
-
-  // Infinite scroll for non-search state
-  useEffect(() => {
-    if (searchTerm) return;
-
-    const node = loaderRef.current;
-    if (!node) return;
-
-    observerRef.current?.disconnect();
-
-    observerRef.current = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setPage((prev) => prev + 1); // Currently unused, can hook into pagination
-        }
-      },
-      { threshold: 1.0 }
-    );
-
-    observerRef.current.observe(node);
-
-    return () => {
-      observerRef.current?.disconnect();
-    };
-  }, [searchTerm]);
-
+  // Display logic
   const displayRecipes = useMemo(() => {
-    if (searchTerm) return Array.isArray(searchResults) ? searchResults : [];
-    return allRecipes;
-  }, [searchTerm, searchResults, allRecipes]);
+    return debouncedSearchTerm ? searchResults : accumulatedRecipes;
+  }, [debouncedSearchTerm, searchResults, accumulatedRecipes]);
+
+  // Handle Load More with smooth scroll retention
+  const handleLoadMore = () => {
+    const currentY = window.scrollY;
+    setPage((prev) => prev + 1);
+    setTimeout(() => window.scrollTo({ top: currentY, behavior: 'smooth' }), 100);
+  };
 
   return (
-    <div className="p-6 space-y-12">
-      {/* Highlight Section */}
-      {!searchTerm && highlight && (
-        <section className="space-y-4">
-          <h2 className="text-2xl font-bold text-pink-600">🌟 Highlight of the Day</h2>
-          <div className="flex flex-col lg:flex-row lg:justify-start">
-            <div className="w-full lg:w-1/2">
-              <RecipeCard recipe={highlight} />
-            </div>
-          </div>
-        </section>
+    <div ref={scrollRef} className="p-6 space-y-12">
+      {/* Search loading indicator */}
+      {debouncedSearchTerm && isSearchLoading && (
+        <div className="flex justify-center">
+          <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
       )}
 
       {/* Recipe Grid */}
@@ -103,34 +69,29 @@ export default function RecipesPage() {
         ))}
       </div>
 
-      {/* Empty State */}
+      {/* No Results */}
       {displayRecipes.length === 0 && !isSearchLoading && !isRandomLoading && (
         <p className="text-center text-gray-500 mt-6">No recipes found.</p>
       )}
 
-      {/* Scroll Indicator */}
-      {!searchTerm && (
-        <div className="flex justify-center mt-4">
-          <svg
-            className="w-6 h-6 text-gray-500 animate-bounce"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-          </svg>
-        </div>
-      )}
+      {/* Load More Button (pagination) */}
+      {!searchTerm && accumulatedRecipes.length > 0 && (
+  <div className="flex justify-center mt-8">
+    {isRandomLoading ? (
+      <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+    ) : (
+      <button
+      aria-busy={isRandomLoading}
+        onClick={handleLoadMore}
+        type="button"
+        className="px-6 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition"
+      >
+        Load More Recipes
+      </button>
+    )}
+  </div>
+)}
 
-      {/* Loader */}
-      {!searchTerm && (
-        <div ref={loaderRef} className="flex justify-center items-center mt-8 h-20">
-          {(isRandomLoading || isSearchLoading) && (
-            <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-          )}
-        </div>
-      )}
 
       {/* Errors */}
       {searchError && <p className="text-red-500 text-center mt-4">{searchError.message}</p>}

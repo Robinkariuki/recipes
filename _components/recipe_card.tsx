@@ -55,13 +55,13 @@ export default function RecipeCard({
       {/* Image */}
       <div className="relative h-48 w-full">
         <Image
-          src={imgSrc}
-          alt={recipe.title}
-          layout="fill"
-          objectFit="cover"
-          className="rounded-t-2xl"
-          onError={() => setImgSrc(fallbackImg)}
-          unoptimized
+              src={imgSrc}
+    alt={recipe.title}
+    fill
+    style={{ objectFit: 'cover' }}
+    className="rounded-t-2xl"
+    onError={() => setImgSrc(fallbackImg)}
+    unoptimized
         />
       </div>
 
