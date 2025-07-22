@@ -20,9 +20,10 @@ const { searchTerm, setSearchTerm } = useMealPlanner();
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <span className="text-2xl font-extrabold text-pink-600 dark:text-pink-400">
-              MealMate
-            </span>
+         <span className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">
+  MealMate
+</span>
+
           </div>
 
           {/* Desktop Nav & Search */}
@@ -33,8 +34,8 @@ const { searchTerm, setSearchTerm } = useMealPlanner();
                 href={item.href}
                 className={`text-sm font-medium transition-colors ${
                   pathname === item.href
-                    ? 'text-pink-600 dark:text-pink-400 underline underline-offset-4'
-                    : 'text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400'
+                    ? 'text-emerald-600 dark:text-emerald-400 underline-offset-4'
+                    : 'text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400'
                 }`}
               >
                 {item.name}
@@ -47,7 +48,7 @@ const { searchTerm, setSearchTerm } = useMealPlanner();
               placeholder="Search meals..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="ml-4 px-3 py-1.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-sm text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="ml-4 px-3 py-1.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-sm text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
           </div>
 
@@ -81,7 +82,7 @@ const { searchTerm, setSearchTerm } = useMealPlanner();
             placeholder="Search meals..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-sm text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-pink-500"
+            className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-sm text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
           />
 
           {navItems.map((item) => (
@@ -91,8 +92,8 @@ const { searchTerm, setSearchTerm } = useMealPlanner();
               onClick={() => setMenuOpen(false)}
               className={`block text-base font-medium transition-colors ${
                 pathname === item.href
-                  ? 'text-pink-600 dark:text-pink-400 underline'
-                  : 'text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400'
+                  ? 'text-emerald-600 dark:text-emerald-400 underline-offset-4'
+                  : 'text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400'
               }`}
             >
               {item.name}

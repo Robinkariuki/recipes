@@ -78,13 +78,13 @@ useEffect(() => {
       {!searchTerm && accumulatedRecipes.length > 0 && (
   <div className="flex justify-center mt-8">
     {isRandomLoading ? (
-      <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      <div className="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
     ) : (
       <button
       aria-busy={isRandomLoading}
         onClick={handleLoadMore}
         type="button"
-        className="px-6 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition"
+        className="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition"
       >
         Load More Recipes
       </button>

@@ -25,7 +25,4 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 /* globals.css */
-#nprogress .bar {
-  background: #eb1260 !important;
-  height: 3px;
-}
+

@@ -1,11 +1,11 @@
 'use client';
 
-import Image from "next/image";
-import { useState, useEffect } from "react";
-import { Recipe } from "@/_utils/types/types";
+import Image from 'next/image';
+import { useState, useEffect } from 'react';
+import { Recipe } from '@/_utils/types/types';
 import * as Dialog from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
-import { useMealPlanner } from "@/contexts/MealPlannerContext";
+import { useMealPlanner } from '@/contexts/MealPlannerContext';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -19,7 +19,7 @@ export default function RecipeCard({
   onRemove?: () => void;
 }) {
   const { addMeal } = useMealPlanner();
-  const fallbackImg = "https://placehold.co/300x200?text=No+Image";
+  const fallbackImg = 'https://placehold.co/300x200?text=No+Image';
 
   const [imgSrc, setImgSrc] = useState(fallbackImg);
   const [date, setDate] = useState('');
@@ -33,7 +33,7 @@ export default function RecipeCard({
 
   const handleAddToPlanner = () => {
     if (!date || !time) {
-      toast.warn("Please select both date and time.");
+      toast.warn('Please select both date and time.');
       return;
     }
 
@@ -55,13 +55,13 @@ export default function RecipeCard({
       {/* Image */}
       <div className="relative h-48 w-full">
         <Image
-              src={imgSrc}
-    alt={recipe.title}
-    fill
-    style={{ objectFit: 'cover' }}
-    className="rounded-t-2xl"
-    onError={() => setImgSrc(fallbackImg)}
-    unoptimized
+          src={imgSrc}
+          alt={recipe.title}
+          fill
+          style={{ objectFit: 'cover' }}
+          className="rounded-t-2xl"
+          onError={() => setImgSrc(fallbackImg)}
+          unoptimized
         />
       </div>
 
@@ -108,8 +108,12 @@ export default function RecipeCard({
 
         {/* Info */}
         <div className="flex flex-wrap gap-3 text-xs text-gray-500 dark:text-gray-400">
-          <p><strong>Ready in:</strong> {recipe.readyInMinutes} min</p>
-          <p><strong>Servings:</strong> {recipe.servings}</p>
+          <p>
+            <strong>Ready in:</strong> {recipe.readyInMinutes} min
+          </p>
+          <p>
+            <strong>Servings:</strong> {recipe.servings}
+          </p>
         </div>
 
         {/* Ingredients */}
@@ -129,7 +133,7 @@ export default function RecipeCard({
               {showAddToPlanner && (
                 <Dialog.Root open={openPlanner} onOpenChange={setOpenPlanner}>
                   <Dialog.Trigger asChild>
-                    <button className="bg-pink-600 text-white w-40 py-1.5 rounded text-sm hover:bg-pink-700 transition">
+                    <button className="w-full bg-emerald-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-emerald-700 whitespace-nowrap text-center">
                       + Add to Planner
                     </button>
                   </Dialog.Trigger>
@@ -148,20 +152,22 @@ export default function RecipeCard({
                       </div>
                       <div className="space-y-2">
                         <input
+                          placeholder="Select date"
                           type="date"
                           value={date}
-                          onChange={(e) => setDate(e.target.value)}
+                          onChange={e => setDate(e.target.value)}
                           className="w-full border rounded px-3 py-2 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                         />
                         <input
                           type="time"
+                          placeholder="Select time"
                           value={time}
-                          onChange={(e) => setTime(e.target.value)}
+                          onChange={e => setTime(e.target.value)}
                           className="w-full border rounded px-3 py-2 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                         />
                         <button
                           onClick={handleAddToPlanner}
-                          className="w-full bg-pink-600 text-white py-2 rounded text-sm hover:bg-pink-700"
+                          className="w-full bg-emerald-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-emerald-700 whitespace-nowrap text-center"
                         >
                           Add to Meal Planner
                         </button>
