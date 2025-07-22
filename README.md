@@ -1,36 +1,166 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🥘 MealMate
 
-## Getting Started
+**MealMate** is a modern meal discovery and planning web application built using the [Next.js App Router](https://nextjs.org/docs/app), [TypeScript](https://www.typescriptlang.org/), and [React Query](https://tanstack.com/query). It allows users to search for recipes or explore random meals in a clean and responsive interface.
 
-First, run the development server:
+Powered by the [Spoonacular API](https://spoonacular.com/food-api), MealMate helps you discover meals based on your preferences.
+
+---
+
+## ✨ Features
+
+- 🔍 **Search Recipes** – Find meals by keyword with detailed nutritional and ingredient info.
+- 🎲 **Random Recipes** – Browse a variety of randomly selected meals.
+- 💾 **Debounced Input** – Smooth UX when typing search terms.
+- 🚀 **Server API Routes** – Protects API key via Next.js backend.
+- ⚡ **React Query** – Handles data fetching, caching, and revalidation.
+- 💅 **Tailwind CSS** – Fully responsive and mobile-first design.
+- 💡 **Context API** – Shares global search state between components.
+
+---
+
+## 🧱 Tech Stack
+
+| Tech         | Purpose                            |
+|--------------|------------------------------------|
+| **Next.js**  | App Router, Routing, API routes    |
+| **TypeScript** | Type safety & DX                  |
+| **React Query** | Data fetching and caching        |
+| **Tailwind CSS** | Styling and responsive design  |
+| **Spoonacular API** | Meal data & search results |
+| **Vercel**   | Deployment and hosting             |
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Robinkariuki/recipes.git
+cd recipes
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+# or
+yarn install
+```
+
+### 3. Create a `.env.local` File
+
+Create a `.env.local` file at the root of the project:
+
+```env
+SPOONACULAR_API_KEY=your_spoonacular_api_key_here
+```
+
+You can get a free API key from: [https://spoonacular.com/food-api](https://spoonacular.com/food-api)
+
+### 4. Run the Development Server
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open your browser and visit: [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📁 Folder Structure (Highlights)
 
-## Learn More
+```
+app/
+  ├── page.tsx                 # Main home/recipes page
+  └── api/
+      └── recipes/
+          ├── search/route.ts # API route to search meals
+          └── random/route.ts # API route for random meals
 
-To learn more about Next.js, take a look at the following resources:
+components/
+  └── recipe_card.tsx          # Reusable recipe display component
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+hooks/
+  ├── useSearchRecipes.ts      # Hook for fetching search results
+  ├── useRandomRecipes.ts      # Hook for fetching random recipes
+  └── useDebounce.ts           # Custom hook for input debouncing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+contexts/
+  └── MealPlannerContext.tsx   # Global search term context
 
-## Deploy on Vercel
+_utils/
+  ├── types/types.ts           # Type definitions (e.g., Recipe)
+  └── spoonacular.ts           # (Optional) Axios instance
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🔐 API Integration Notes
+
+All Spoonacular API calls are routed through your own server-side handlers under `app/api` to keep your API key secure.
+
+Example endpoints:
+
+```
+GET /api/recipes/search?query=chicken
+GET /api/recipes/random?number=8
+```
+
+These internally call the Spoonacular API using your secret key stored in `.env.local`.
+
+---
+
+## 🌐 Deployment
+
+This project is fully optimized for deployment on [Vercel](https://vercel.com/):
+
+### Steps to Deploy:
+
+1. Push the code to GitHub.
+2. Go to [vercel.com](https://vercel.com/) and import your GitHub repo.
+3. In the **Project Settings**, add the following environment variable:
+
+```env
+SPOONACULAR_API_KEY=your_spoonacular_api_key
+```
+
+4. Click **Deploy**.
+
+---
+
+## 🧪 Developer Notes
+
+- You can modify `app/page.tsx` to change the UI logic.
+- API routes use the **App Router** syntax: `app/api/.../route.ts`.
+- Styling is handled with **Tailwind**, which is configured for mobile-first design.
+- React Query is used to fetch, cache, and update data without boilerplate.
+
+---
+
+## 🖼️ UI Preview
+
+_Add a screenshot here:_
+
+```
+![MealMate Preview](./public/preview.png)
+```
+
+---
+
+## 📄 License
+
+This project is open-source and licensed under the MIT License.
+
+MIT © [Robin Kariuki](https://github.com/Robinkariuki)
+
+---
+
+## 🙌 Acknowledgments
+
+- [Spoonacular](https://spoonacular.com/food-api) for their awesome recipe data.
+- [Next.js](https://nextjs.org)
+- [TanStack Query](https://tanstack.com/query)
+- [Tailwind CSS](https://tailwindcss.com)
