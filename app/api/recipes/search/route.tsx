@@ -1,13 +1,14 @@
-// pages/api/recipes/search.ts
-import type { NextApiRequest, NextApiResponse } from 'next';
+// app/api/recipes/search/route.ts
+import { NextResponse } from 'next/server';
 
 const SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY;
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const query = req.query.query as string;
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const query = searchParams.get('query');
 
   if (!query) {
-    return res.status(400).json({ error: 'Missing search query' });
+    return NextResponse.json({ error: 'Missing search query' }, { status: 400 });
   }
 
   try {
@@ -21,7 +22,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const searchData = await searchRes.json();
 
     if (!searchRes.ok) {
-      return res.status(searchRes.status).json({ error: searchData.message || 'Failed to search recipes' });
+      return NextResponse.json(
+        { error: searchData.message || 'Failed to search recipes' },
+        { status: searchRes.status }
+      );
     }
 
     const results = searchData.results;
@@ -41,8 +45,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       })
     );
 
-    return res.status(200).json({ recipes: detailed });
+    return NextResponse.json({ recipes: detailed }, { status: 200 });
   } catch (error) {
-    return res.status(500).json({ error: 'Server error while fetching recipe details' });
+    return NextResponse.json(
+      { error: 'Server error while fetching recipe details' },
+      { status: 500 }
+    );
   }
 }
