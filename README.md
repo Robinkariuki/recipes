@@ -145,7 +145,7 @@ SPOONACULAR_API_KEY=your_spoonacular_api_key
 _Add a screenshot here:_
 
 ```
-![MealMate Preview](./assets/preview.png)
+[MealMate Preview](./assets/preview.png)
 ```
 
 ---
